@@ -14,9 +14,16 @@ module DndSchedule
 
       def execute(input: $stdin, output: $stdout)
 
-        table = TTY::Table.new headers, data
+        data = rows
+        if options[:all]
+          output.puts "\e[H\e[2J" # cls
 
-        output.puts table.render(:unicode)
+          table = TTY::Table.new headers, data
+
+          output.puts table.render(:unicode)
+        end
+
+        output.puts "#{data.length} Games scheduled."
 
       end
 
@@ -30,7 +37,7 @@ module DndSchedule
         @yog ||= Hash.new { |hash, key| hash[key] = [] }
       end
 
-      def data
+      def rows
         populate_insanity_games
         populate_matsif_games
         populate_gwynzer_games
@@ -44,7 +51,7 @@ module DndSchedule
           game_id = game[1]
           multipe = game_id.length > 1
 
-          if Date.parse( game_date ) >= Date.today
+          if Date.parse( game_date ) >= Date.today && Date.parse( game_date ).year == Date.today.year
             if multipe
               game_id.length.times do |index|
                 data << [game_date, game_id[index]]
