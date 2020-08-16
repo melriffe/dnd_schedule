@@ -42,3 +42,8 @@ Everyone interacting in the DndSchedule project's codebases, issue trackers, cha
 ## Copyright
 
 Copyright (c) 2020 Mel Riffe. See [MIT License](LICENSE.txt) for further details.
+
+----
+
+Config file: ~/.dnd_schedule
+Dir.home + "/.dnd_schedule"
