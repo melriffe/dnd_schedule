@@ -11,7 +11,7 @@ module DndSchedule
     # Error raised by this runner
     Error = Class.new(StandardError)
 
-    desc 'version', 'dnd_schedule version'
+    desc 'version', 'D&D Schedule version'
     def version
       require_relative 'version'
       puts "v#{DndSchedule::VERSION}"
