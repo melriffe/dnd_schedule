@@ -69,3 +69,24 @@ games:
 defaults:
     occurrences: 12
     role: "dm"
+
+----
+
+config command operatoins:
+what do i want to support via a 'config' command?
+* generation of an empty config file
+* adding entries to the config file (maybe like git)
+* opening editor on the config file
+* removing entries from the the config file
+* support command-line arugment overrides
+* support reading from the ENV (need to define order of precendence)
+
+----
+
+display command options:
+
+--game [name] : display schedule for specified game
+--month [name] : display schedule for specified month
+--upcoming : display schedule for games in the next 2 weeks
+--all : display schedule for all games
+
