@@ -81,3 +81,12 @@ what do i want to support via a 'config' command?
 * support command-line arugment overrides
 * support reading from the ENV (need to define order of precendence)
 
+----
+
+display command options:
+
+--game [name] : display schedule for specified game
+--month [name] : display schedule for specified month
+--upcoming : display schedule for games in the next 2 weeks
+--all : display schedule for all games
+
