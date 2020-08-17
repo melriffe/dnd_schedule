@@ -2,6 +2,8 @@
 require 'date'
 require 'tty-table'
 require 'pry-byebug'
+
+require_relative '../app'
 require_relative '../command'
 
 module DndSchedule
@@ -13,6 +15,9 @@ module DndSchedule
       end
 
       def execute(input: $stdin, output: $stdout)
+
+        config = DndSchedule::App.config
+        binding.pry
 
         data = rows
         if options[:all]
