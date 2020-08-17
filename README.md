@@ -42,3 +42,30 @@ Everyone interacting in the DndSchedule project's codebases, issue trackers, cha
 ## Copyright
 
 Copyright (c) 2020 Mel Riffe. See [MIT License](LICENSE.txt) for further details.
+
+----
+
+Config file: ~/.dnd_schedule
+Dir.home + "/.dnd_schedule"
+
+----
+
+games:
+    Insanity:
+        frequency: "1st Saturday"
+    Matsif:
+        frequency: "3rd Saturday"
+        role: "player"
+    Gwynzer:
+        frequency: "4th Saturday"
+        role: "player"
+    Noah:
+        frequency: "Every 2 weeks"
+        starting: "2020-08-22"
+    Kaela
+        frequence: "Every 3 weeks"
+        starting: "2020-09-06"
+
+defaults:
+    occurrences: 12
+    role: "dm"
