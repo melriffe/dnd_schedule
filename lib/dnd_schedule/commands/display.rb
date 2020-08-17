@@ -16,18 +16,58 @@ module DndSchedule
 
       def execute(input: $stdin, output: $stdout)
 
-        config = DndSchedule::App.config
+        # binding.pry
 
-        data = rows
-        if options[:all]
+        if options[:list]
+
+          config = DndSchedule::App.config
+          config.read
+          games = config.fetch(:games).keys.sort
+
+          output.puts games
+
+        else
+
           output.puts "\e[H\e[2J" # cls
 
+          data = rows
+
+          unless options[:exclude].nil?
+            game = options[:exclude]
+            data = data.reject { |game_data| game_data[1].downcase == game.downcase }
+          end
+
+          unless options[:month].nil?
+
+            month = options[:month]
+            data = data.select { |game_data| Date.parse(game_data[0]).month == month }
+
+          else
+
+            if options[:all]
+            else
+
+              if options[:upcoming]
+                date = Date.today
+                date += 14
+                data = data.select { |game_data| Date.parse(game_data[0]) <= date }
+              end
+
+            end
+
+
+            unless options[:game].nil?
+              game = options[:game]
+              data = data.select { |game_data| game_data[1].downcase == game.downcase }
+            end
+
+          end
+
           table = TTY::Table.new headers, data
-
           output.puts table.render(:unicode)
-        end
+          output.puts "#{data.length} Games scheduled."
 
-        output.puts "#{data.length} Games scheduled."
+        end
 
       end
 

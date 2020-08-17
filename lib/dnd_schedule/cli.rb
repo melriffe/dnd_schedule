@@ -22,13 +22,34 @@ module DndSchedule
 
     desc 'display [OPTIONS]', 'Display D&D Schedule'
     long_desc <<-DESC
-      Display D&D Schedule(s). The default behavior is to display all defined
-      game session schedules.
+      Display D&D Schedule(s). Based on information stored in 'config.yml' this
+      command displays the various D&D games and their scheduled dates.
+
+      The default behavior is to display the games scheduled in the next 2 weeks; the --upcoming flag.
+
+      You can also specify specific games, or specific months with which to display schedules.
+
+      The --all command overrides all passed in options.
 
     DESC
     method_option :all, aliases: '-a',
+      type: :boolean, default: false,
+      desc: 'Display schedule for all games'
+    method_option :upcoming, aliases: '-u',
       type: :boolean, default: true,
-      desc: 'Display all configured schedules'
+      desc: 'Display schedule for games in the next 2 weeks'
+    method_option :list, aliases: '-l',
+      type: :boolean, default: false,
+      desc: 'Display a list of configured games'
+    method_option :game, aliases: '-g',
+      type: :string,
+      desc: 'Display schedule for specified game'
+    method_option :exclude, aliases: '-e',
+      type: :string, banner: 'GAME',
+      desc: 'Exclude schedule for specified game'
+    method_option :month, aliases: '-m',
+      type: :numeric,
+      desc: 'Display schedule for specified month'
     method_option :help, aliases: '-h',
       type: :boolean,
       desc: 'Display usage information'
