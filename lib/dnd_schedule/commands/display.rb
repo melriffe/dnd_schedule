@@ -17,7 +17,6 @@ module DndSchedule
       def execute(input: $stdin, output: $stdout)
 
         config = DndSchedule::App.config
-        binding.pry
 
         data = rows
         if options[:all]
