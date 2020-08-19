@@ -28,8 +28,6 @@ module DndSchedule
 
         else
 
-          output.puts "\e[H\e[2J" # cls
-
           data = rows
 
           unless options[:exclude].nil?
