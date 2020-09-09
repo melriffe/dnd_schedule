@@ -3,7 +3,8 @@ source "https://rubygems.org"
 # Specify your gem's dependencies in dnd_schedule.gemspec
 gemspec
 
-gem "pry-byebug", "~> 3.9"
+gem 'awesome_print', '~> 1.8'
+gem 'pry-byebug', '~> 3.9'
 gem "rake", "~> 12.0"
 gem "rspec", "~> 3.0"
 gem 'rubocop', '~> 0.90.0'
