@@ -4,7 +4,7 @@ RSpec.describe DndSchedule::Commands::Display do
   it "executes `display` command successfully" do
     output = StringIO.new
     options = {}
-    command = DndSchedule::Commands::Display.new(options)
+    command = described_class.new(options)
 
     command.execute(output: output)
 
