@@ -10,21 +10,25 @@ Gem::Specification.new do |spec|
   spec.summary       = %q{Calculate and display upcoming D&D game sessions.}
   spec.description   = %q{Calculate and display upcoming D&D game sessions.}
   spec.homepage      = "https://melriffe.com/dnd_schedule"
-  spec.required_ruby_version = Gem::Requirement.new(">= 2.3.0")
 
-  spec.metadata["allowed_push_host"] = "TODO: Set to 'http://mygemserver.com'"
+  spec.metadata["allowed_push_host"] = "https://rubygems.org"
 
   spec.metadata["homepage_uri"] = spec.homepage
-  spec.metadata["source_code_uri"] = "https://github.com/melriffe?tab=repositories"
-  spec.metadata["changelog_uri"] = "https://github.com/melriffe?tab=repositories"
+  spec.metadata["source_code_uri"] = "https://github.com/melriffe/dnd_schedule"
+  spec.metadata["changelog_uri"] = "https://github.com/melriffe/dnd_schedule/blob/master/CHANGELOG.md"
+  spec.metadata["bug_tracker_uri"] = "https://github.com/melriffe/dnd_schedule/issues"
+  spec.metadata["documentation_uri"] = "https://www.rubydoc.info/gems/dnd_schedule"
 
-  # Specify which files should be added to the gem when it is released.
-  # The `git ls-files -z` loads the files in the RubyGem that have been added into git.
-  spec.files         = Dir.chdir(File.expand_path('..', __FILE__)) do
-    `git ls-files -z`.split("\x0").reject { |f| f.match(%r{^(test|spec|features)/}) }
-  end
-  spec.bindir        = "exe"
-  spec.executables   = spec.files.grep(%r{^exe/}) { |f| File.basename(f) }
-  spec.require_paths = ["lib"]
-  spec.extensions    = ["ext/dnd_schedule/extconf.rb"]
+  spec.files       = Dir["lib/**/*"]
+  spec.bindir      = "exe"
+  spec.executables = %w[dnd_schedule]
+
+  spec.extra_rdoc_files = Dir["README.md", "CHANGELOG.md", "LICENSE.txt"]
+
+  spec.required_ruby_version = Gem::Requirement.new(">= 2.3.0")
+
+  # NOTE: Watch for a new release of TTY, and then change these dependencies.
+  spec.add_dependency "tty", "~> 0.10.0"
+  spec.add_dependency "bundler", "~> 1.16", "< 2.0"
+
 end
