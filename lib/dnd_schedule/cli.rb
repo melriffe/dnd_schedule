@@ -16,7 +16,7 @@ module DndSchedule
     desc 'version', 'D&D Schedule version'
     def version
       require_relative 'version'
-      puts "v#{DndSchedule::VERSION}"
+      puts "v#{DndSchedule::VERSION} D&D Schedule 🐲"
     end
     map %w(--version -v) => :version
 
