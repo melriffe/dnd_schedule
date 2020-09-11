@@ -45,30 +45,46 @@ Copyright (c) 2020 Mel Riffe. See [MIT License](LICENSE.txt) for further details
 
 ----
 
-Config file: ~/.dnd_schedule
-Dir.home + "/.dnd_schedule"
+Config file: ~/config.yml
+Dir.home + "/config.yml"
 
 ----
+```
+  # Configuration settings for D&D Schedule
+  # -------------------------------------------------------------------
+  # Configuration is split into 2 groups: 'defaults' and 'games'.
+  # "occurrences" controls how many dates, per game, to display; this
+  # needs to be a positive whole number.
+  # "role" defines your role within each game; valid values are "dm" or
+  # "player"
+  #
+  # In the "games" section, each game is defined by a key. The key is
+  # displayed when showing the upcoming schedules.
+  # "frequency" defines how often, or when a game occurs. If frequency
+  # starts with 'Every' the game entry has to have a "starting" key
+  # with a value that can be passed to Date.parse.
+  # -------------------------------------------------------------------
 
-games:
-    Insanity:
-        frequency: "1st Saturday"
-    Matsif:
-        frequency: "3rd Saturday"
-        role: "player"
-    Gwynzer:
-        frequency: "4th Saturday"
-        role: "player"
-    Noah:
-        frequency: "Every 2 weeks"
-        starting: "2020-08-22"
-    Kaela
-        frequence: "Every 3 weeks"
-        starting: "2020-09-06"
-
-defaults:
+  defaults:
     occurrences: 12
     role: "dm"
+
+  games:
+    Insanity:
+      frequency: "1st Saturday"
+    Matsif:
+      frequency: "3rd Saturday"
+      role: "player"
+    Gwynzer:
+      frequency: "4th Saturday"
+      role: "player"
+    Noah:
+      frequency: "Every 2 weeks"
+      starting: "2020-08-22"
+    Kaela:
+      frequence: "Every 3 weeks"
+      starting: "2020-09-06"
+```
 
 ----
 
@@ -89,4 +105,3 @@ display command options:
 --month [name] : display schedule for specified month
 --upcoming : display schedule for games in the next 2 weeks
 --all : display schedule for all games
-
