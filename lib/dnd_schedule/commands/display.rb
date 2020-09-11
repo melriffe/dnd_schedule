@@ -3,7 +3,6 @@ require 'date'
 require 'tty-table'
 require 'pry-byebug'
 
-require_relative '../app'
 require_relative '../command'
 
 module DndSchedule
