@@ -66,6 +66,7 @@ Dir.home + "/config.yml"
   # -------------------------------------------------------------------
 
   defaults:
+    active: true
     occurrences: 12
     role: "dm"
 
@@ -82,6 +83,7 @@ Dir.home + "/config.yml"
       frequency: "Every 2 weeks"
       starting: "2020-08-22"
     Kaela:
+      active: false
       frequency: "Every 3 weeks"
       starting: "2020-09-06"
 ```

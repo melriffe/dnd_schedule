@@ -1,5 +1,6 @@
 ---
 defaults:
+  active: true
   occurrences: 12
   role: dm
 games:
@@ -15,5 +16,6 @@ games:
     frequency: Every 2 weeks
     starting: '2020-09-26'
   Kaela:
+    active: false
     frequency: Every 3 weeks
     starting: '2020-09-06'

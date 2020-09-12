@@ -3,6 +3,7 @@
 require 'date'
 
 require 'dnd_schedule'
+require 'tty-font'
 require 'tty-table'
 
 require_relative '../command'
@@ -17,10 +18,22 @@ module DndSchedule
       end
 
       def execute(input: $stdin, output: $stdout)
+        output.print cursor.clear_screen
+        output.print cursor.move_to
+
+        font = TTY::Font.new(:standard)
+        output.puts font.write('D&D Schedule')
 
         configuration = DndSchedule.configuration
         configuration.validate!
+
+        # TODO: Make this part cleaner. The idea is to grab the active
+        # configurations first.
+        # TODO: Support --list --all
+        #
         game_keys = configuration.games
+        game_configs = game_keys.collect { |key| configuration.game key }
+        game_keys = (game_configs.collect { |config| config['name'] if config['active' ]}).compact
 
         if options[:list]
 
