@@ -22,7 +22,8 @@ module DndSchedule
         output.print cursor.move_to
 
         font = TTY::Font.new(:standard)
-        output.puts font.write('D&D Schedule')
+        pastel = Pastel.new
+        output.puts pastel.green font.write('D&D Schedule')
 
         configuration = DndSchedule.configuration
         configuration.validate!
