@@ -1,241 +1,92 @@
 # frozen_string_literal: true
-require 'date'
-require 'tty-table'
-require 'pry-byebug'
 
-require_relative '../app'
+require 'date'
+
+require 'dnd_schedule'
+require 'tty-table'
+
 require_relative '../command'
 
 module DndSchedule
   module Commands
     class Display < DndSchedule::Command
       attr_reader :options
+
       def initialize(options)
         @options = options
       end
 
       def execute(input: $stdin, output: $stdout)
 
-        # binding.pry
+        configuration = DndSchedule.configuration
+        configuration.validate!
+        game_keys = configuration.games
 
         if options[:list]
 
-          config = DndSchedule::App.config
-          config.read
-          games = config.fetch(:games).keys.sort
-
-          output.puts games
+          output.puts
+          output.puts game_keys
+          output.puts
+          output.puts "Configured Games: #{game_keys.size}"
 
         else
 
-          data = rows
+          game_configs = filtered_game_keys(game_keys).collect { |key| configuration.game key }
 
-          unless options[:exclude].nil?
-            game = options[:exclude]
-            data = data.reject { |game_data| game_data[1].downcase == game.downcase }
+          upcoming_sessions = []
+          game_configs.each do |game_config|
+            game = DndSchedule::Game.new game_config
+            upcoming_sessions << filtered_game_sessions(game.sessions)
           end
 
-          unless options[:month].nil?
-
-            month = options[:month]
-            data = data.select { |game_data| Date.parse(game_data[0]).month == month }
-
-          else
-
-            if options[:all]
-            else
-
-              if options[:upcoming]
-                date = Date.today
-                date += 14
-                data = data.select { |game_data| Date.parse(game_data[0]) <= date }
-              end
-
-            end
-
-
-            unless options[:game].nil?
-              game = options[:game]
-              data = data.select { |game_data| game_data[1].downcase == game.downcase }
-            end
-
-          end
-
-          table = TTY::Table.new headers, data
+          table = TTY::Table.new table_headers, table_data(upcoming_sessions)
           output.puts table.render(:unicode)
-          output.puts "#{data.length} Games scheduled."
-
+          output.puts
+          output.puts "#{upcoming_sessions.length} Games scheduled."
         end
 
       end
 
       private
 
-      def headers
-        ['Date', 'Game']
+      def filtered_game_keys game_keys
+        return game_keys if options[:exclude].nil? && options[:game].nil?
+        filtered_keys = game_keys.reject { |key| key == options[:exclude] } unless options[:exclude].nil?
+        filtered_keys = game_keys.select { |key| key == options[:game] } unless options[:game].nil?
+        filtered_keys
       end
 
-      def year_of_games
-        @yog ||= Hash.new { |hash, key| hash[key] = [] }
-      end
-
-      def rows
-        populate_insanity_games
-        populate_matsif_games
-        populate_gwynzer_games
-        populate_kaela_games
-        populate_noah_games
-
-        data = []
-
-        year_of_games.sort.collect do |game|
-          game_date = game[0]
-          game_id = game[1]
-          multipe = game_id.length > 1
-
-          if Date.parse( game_date ) >= Date.today && Date.parse( game_date ).year == Date.today.year
-            if multipe
-              game_id.length.times do |index|
-                data << [game_date, game_id[index]]
-              end
-            else
-              data << [game_date, game_id[0]]
-            end
+      def filtered_game_sessions game_sessions
+        if options[:month]
+          unless options[:all]
+            game_sessions.select { |session| session.date[5,2].to_i == options[:month] }
+          else
+            game_sessions
           end
-
-        end
-
-        data
-      end
-
-      def kaela_game_start_date
-        @kstart_date = '2020-09-06'
-      end
-
-      def noah_game_start_date
-        @nstat_date = '2020-08-22'
-      end
-
-      def year_of_games
-        @yog ||= Hash.new { |hash, key| hash[key] = [] }
-      end
-
-      def start_date
-        date = Date.today
-        @year = date.year
-        return Date.parse "#{date.year}-#{date.month}-1"
-      end
-
-      def first_saturday_of_month date
-        new_month_date = first_of_month date
-        if new_month_date < start_date
-          new_month_date = advance_date new_month_date
-        end
-        until new_month_date.wday == 6
-          new_month_date += 1
-        end
-        new_month_date
-      end
-
-      def second_saturday_of_month date
-        first_saturday_of_month( date ) + 7
-      end
-
-      def third_saturday_of_month date
-        second_saturday_of_month( date ) + 7
-      end
-
-      def fourth_saturday_of_month date
-        third_saturday_of_month( date ) + 7
-      end
-
-      def first_of_month date
-        Date.parse "#{date.year}-#{date.month}-1"
-      end
-
-      def advance_date date
-        year = date.year
-        month = date.month
-
-        if @year.nil? || @year < year
-          @year = year
-        end
-
-        if year == date.year && 12 == date.month
-          year += 1
-          month = 1
         else
-          month += 1
+          unless options[:all]
+            game_sessions.select { |session| session.date <= upcoming_date }
+          else
+            game_sessions
+          end
         end
-
-        Date.parse "#{year}-#{month}-1"
       end
 
-      # First Saturday of the month
-      # 2019-06-08 12:00PM
-      def populate_insanity_games
-
-        game_date = first_saturday_of_month start_date
-        year_of_games[ game_date.to_s ] << 'Insanity'
-
-        5.times do
-          game_date = first_saturday_of_month advance_date game_date
-          year_of_games[ game_date.to_s ] << 'Insanity'
-        end
-
+      def upcoming_date
+        (Date.today + 14).to_s
       end
 
-      # Third Saturday of the month
-      # 2020-02-15 12:00PM
-      def populate_matsif_games
-
-        game_date = third_saturday_of_month start_date
-        year_of_games[ game_date.to_s ] << 'Matsif'
-
-        5.times do
-          game_date = third_saturday_of_month advance_date game_date
-          year_of_games[ game_date.to_s ] << 'Matsif'
-        end
-
+      def table_headers
+        ['Date', 'Game', 'Role']
       end
 
-      # Fourth Saturday of the month
-      def populate_gwynzer_games
-
-        game_date = fourth_saturday_of_month start_date
-        year_of_games[ game_date.to_s ] << 'Gwynzer'
-
-        5.times do
-          game_date = fourth_saturday_of_month advance_date game_date
-          year_of_games[ game_date.to_s ] << 'Gwynzer'
+      def table_data upcoming_sessions
+        upcoming_sessions.flatten!.sort!
+        data = []
+        upcoming_sessions.each do |session|
+          data << [session.date, session.name, session.role]
         end
-
-      end
-
-      # Every three weeks
-      def populate_kaela_games
-
-        game_date = Date.parse kaela_game_start_date
-        year_of_games[ game_date.to_s ] << 'Kaela'
-
-        11.times do
-          game_date += 21
-          year_of_games[ game_date.to_s ] << 'Kaela'
-        end
-
-      end
-
-      # Every two weeks
-      def populate_noah_games
-
-        game_date = Date.parse noah_game_start_date
-        year_of_games[ game_date.to_s ] << 'Noah'
-
-        11.times do
-          game_date += 14
-          year_of_games[ game_date.to_s ] << 'Noah'
-        end
-
+        data
       end
 
     end

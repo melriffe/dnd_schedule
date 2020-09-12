@@ -82,7 +82,7 @@ Dir.home + "/config.yml"
       frequency: "Every 2 weeks"
       starting: "2020-08-22"
     Kaela:
-      frequence: "Every 3 weeks"
+      frequency: "Every 3 weeks"
       starting: "2020-09-06"
 ```
 
@@ -105,3 +105,5 @@ display command options:
 --month [name] : display schedule for specified month
 --upcoming : display schedule for games in the next 2 weeks
 --all : display schedule for all games
+
+----
