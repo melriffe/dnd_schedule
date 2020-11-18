@@ -14,7 +14,7 @@ games:
     role: player
   Noah:
     frequency: Every 2 weeks
-    starting: '2020-09-26'
+    starting: '2020-11-07'
   Kaela:
     active: false
     frequency: Every 3 weeks
