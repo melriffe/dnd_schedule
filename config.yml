@@ -13,6 +13,7 @@ games:
     frequency: 4th Saturday
     role: player
   Noah:
+    active: false
     frequency: Every 2 weeks
     starting: '2020-11-07'
   Kaela:
