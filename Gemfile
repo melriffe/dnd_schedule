@@ -7,7 +7,7 @@ gem 'amazing_print', '~> 1.2'
 gem 'pry-byebug', '~> 3.9'
 gem "rake", "~> 13.0"
 gem "rspec", "~> 3.10"
-gem 'rubocop', '~> 0.93.1'
-gem 'rubocop-rspec', '~> 1.44'
+gem 'rubocop', '~> 1.8.1'
+gem 'rubocop-rspec', '~> 2.1'
 
 # bundle _1.17.3_ install
