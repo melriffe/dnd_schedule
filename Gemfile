@@ -5,7 +5,7 @@ gemspec
 
 gem 'amazing_print', '~> 1.2', '>= 1.2.1'
 gem 'pry-byebug', '~> 3.9'
-gem "rake", "~> 12.0"
+gem "rake", "~> 13.0"
 gem "rspec", "~> 3.10"
 gem 'rubocop', '~> 0.93.1'
 gem 'rubocop-rspec', '~> 1.43', '>= 1.43.2'
