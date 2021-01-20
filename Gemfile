@@ -3,7 +3,7 @@ source "https://rubygems.org"
 # Specify your gem's dependencies in dnd_schedule.gemspec
 gemspec
 
-gem 'amazing_print', '~> 1.2', '>= 1.2.1'
+gem 'amazing_print', '~> 1.2'
 gem 'pry-byebug', '~> 3.9'
 gem "rake", "~> 12.0"
 gem "rspec", "~> 3.10"
